@@ -1,0 +1,146 @@
+<html>
+<head>
+  <script src="editor.js"></script>
+  <script src="easy.js"></script>
+  <script src="FileSaver.min.js"></script>
+  <script src="jszip.js"></script>
+  <script src="cookie.js"></script>
+  <script src="jquery-3.3.1.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="editor.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <title>HTMLGenie</title>
+  <noscript>
+    <style>
+    body {
+      visibility: hidden;
+    }
+    p.no {
+      visibility: visible;
+    }
+    </style>
+  </noscript>
+
+</head>
+<body style="font-family: 'Ubuntu';">
+<script>
+
+//Leave page warning (Thanks to Gabor Szabo on CodeMaven for making an article on this.)
+window.onbeforeunload = function() {
+   return "Changes you made may not have been saved";
+};
+</script>
+  <noscript>
+    <p class="no">Sorry, you need Javascript to use HTMLGenie.</p>
+  </noscript>
+  <!--The build number text-->
+  <p style="color: #ED1010; position: fixed; top: 5px; right: 10px;" id="buildNo"></p>
+  <script>
+  var p = document.getElementById("buildNo");
+  p.innerHTML = 'v' + version.stage + '.' + version.build + '.' + version.patch + ' alpha';
+  </script>
+  <img src="img/settings/borderSettings.png" style="display: none; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;" id="settingBorder">
+  <div id="menu" class="menuBar">
+    <table class="menuTable">
+      <tbody>
+    <tr>
+    <td>
+      <img id="logo" src="svg/logo.svg" width="80" height="60">
+    </td>
+    <td>
+      <!--The menu for the user's website-->
+
+    <img src="svg/newFile.svg" id="newFileButton" onclick="newFileHG()" class="noselect" onmouseenter="changeTooltip('Create a new website')" onmouseleave="changeTooltip(' ')">
+    </td>
+    <td>
+      <img src="svg/openFile.svg" id="openFileButton" onclick="openFileHG()" class="noselect" onmouseenter="changeTooltip('Open a website file')" onmouseleave="changeTooltip(' ')">
+    </td>
+    <td>
+      <img src="svg/saveFile.svg" id="saveFileButton" onclick="saveFileHG()" class="noselect" onmouseenter="changeTooltip('Download your website file')" onmouseleave="changeTooltip(' ')">
+    </td>
+    <td>
+      <img src="svg/buildWebsite.svg" id="buildSiteButton" onclick="buildSiteHG()" class="noselect" onmouseenter="changeTooltip('Build and download your finished website')" onmouseleave="changeTooltip(' ')">
+    </td>
+    <td>
+      <img src="svg/settingsButton.svg" id="settingsButton" onclick="openSettingsHG()" class="noselect" onmouseenter="changeTooltip('Settings')" onmouseleave="changeTooltip(' ')">
+    </td>
+  </tr>
+</tbody>
+  </table>
+  <p id=tooltip></p>
+  </div>
+  <!--The settings box-->
+  <div style="display: none; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; padding-bottom: 50px; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5);" id="settingsBox">
+  </div>
+  <script src="settings.js"></script>
+  <!--This is the juicy part-->
+  <table id="mainTable">
+    <tr class="container">
+    <td class="part">
+      <div class="bcontent" id="palette">
+        <p style="font-family: 'Roboto';">Categories</p>
+        <!--The 4 category tabs-->
+        <table id="cc">
+          <tr>
+            <td>
+              <div class="categoryText" onclick="loadBlocksText()">
+                <p class="noselect">Text</p>
+              </div>
+            </td>
+            <td>
+              <div class="categoryMultimedia" onclick="loadBlocksMultimedia()">
+                <p class="noselect">Images and Videos</p>
+              </div>
+            </td>
+          </tr>
+            <td>
+              <div class="categoryInput" onclick="loadBlocksInput()">
+                <p class="noselect">Input</p>
+              </div>
+            </td>
+            <td>
+              <div class="categoryOthers" onclick="loadBlocksOther()">
+                <p class="noselect">Other Blocks</p>
+              </div>
+            </td>
+          <tr>
+          </tr>
+        </table>
+        <img src="img/border.png">
+        <br></br>
+        <!--
+        The block palette;
+        It doesn't look like much right now, but when you add JavaScript, it looks great!
+      -->
+        <div id="palHome">
+        </div>
+      </div>
+    </td>
+    <td class="part">
+      <div class="bcontent" id="blockarea">
+        <p style="font-family: 'Roboto';">Your Block Layout</p>
+        <div id="layout">
+        </div>
+      </div>
+    </td>
+    <td class="part">
+      <div class="bcontent" id="inspector">
+        <p style="font-family: 'Roboto';">Block Inspector</p>
+      </div>
+    </td>
+    <td class="part">
+      <div class="bcontent" id="results">
+        <p style="font-family: 'Roboto';">Results</p>
+        <iframe id="rif"></iframe>
+      </div>
+    </td>
+  </tr>
+  </table>
+  <script>
+  loadBlocksText();
+  </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+div.bcontent {
+  border-style: solid;
+  border-width: 5px;
+  border-color: black;
+  overflow-y: scroll;
+  width: 100%;
+  height: inherit;
+  overflow-y: scroll;
+}
+#palette {
+  font-family: verdana;
+}
+#blockarea {
+  font-family: verdana;
+}
+#mainTable {
+  width: 100%;
+  height: 90%;
+
+}
+td.part {
+  width: 25%;
+  height: inherit;
+}
+#rif {
+  width: inherit;
+  height: 91.5%;
+}
+div.menuBar {
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 21%, rgb(211, 188, 95) 100%);
+}
+#cc {
+  width: 100%;
+  text-align: center;
+  table-layout: fixed;
+}
+tr.container {
+  height: 100%;
+}
+
+div.categoryText {
+  border-top-style: solid;
+  border-top-color: #AF0E0E;
+  background-color: #c6c6c6;
+  cursor: pointer;
+  width: 100%;
+  height: 70px;
+}
+div.categoryMultimedia {
+  border-top-style: solid;
+  border-top-color: #B220E8;
+  background-color: #c6c6c6;
+  cursor: pointer;
+  width: 100%;
+  height: 70px;
+}
+div.categoryInput {
+  border-top-style: solid;
+  border-top-color: #325B13;
+  background-color: #c6c6c6;
+  cursor: pointer;
+  width: 100%;
+  height: 70px;
+}
+div.categoryOthers {
+  border-top-style: solid;
+  border-top-color: #919191;
+  background-color: #c6c6c6;
+  cursor: pointer;
+  width: 100%;
+  height: 70px;
+}
+
+/*Thanks to W3Schools for providing the dropdown code.*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.noselect {
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+}
+
+.magnifyCursor {
+  cursor: url('glass.cur'), auto;
+}
+
+div.settings {
+
+
+}
+img.settingsBorder {
+
+}
+.menuTable {
+  table-layout: fixed;
+}
+#tooltip {
+  position: absolute;
+  top: 40px;
+  left: 6.8%;
+}
+
+.textBoxHG {
+  font-family: 'Ubuntu';
+  background-color: #515151;
+  color: white;
+  border-style: solid;
+  border-color: #666666;
+  border-width: medium;
+  border-radius: 15px;
+  cursor: url('img/settings/wrench.cur'), auto;
+}
+/*
+.selectHG {
+  background-color: #515151;
+  color: white;
+  border-style: solid;
+  border-color: #666666;
+  border-width: medium;
+  border-radius: 15px;
+}
+*/
+.numberHG {
+  font-family: 'Ubuntu';
+  background-color: #515151;
+  color: white;
+  border-style: solid;
+  border-color: #666666;
+  border-width: medium;
+  border-radius: 15px;
+  width: 48px;
+  cursor: url('img/settings/wrench.cur'), auto;
+}
+
+.colorHG {
+  font-family: 'Ubuntu';
+  background-color: #515151;
+  color: white;
+  border-style: solid;
+  border-color: #666666;
+  border-width: medium;
+  border-radius: 15px;
+  height: 30px;
+  cursor: url('img/settings/wrench.cur'), auto;
+}
+.settingsSaveButton {
+  width: 50%;
+  font-family: 'Ubuntu';
+  background-color: #50a5ff;
+  color: white;
+  border-color: blue;
+  border-width: medium;
+  border-radius: 15px;
+  height: 30px;
+  cursor: url('img/settings/wrench.cur'), auto;
+  /*position: fixed;*/
+  /*bottom: 0px;*/
+}
+
+.settingsApplyButton {
+  width: 50%;
+  font-family: 'Ubuntu';
+  background-color: #33cc33;
+  color: white;
+  border-color: #196619;
+  border-width: medium;
+  border-radius: 15px;
+  height: 30px;
+  cursor: url('img/settings/wrench.cur'), auto;
+  /*position: fixed;*/
+  /*bottom: 0px;*/
+}
+
+.dialogBorder {
+  border-style: solid;
+  border-color: #50a5ff;
+  border-width: 15px;
+  border-radius: 15px;
+}

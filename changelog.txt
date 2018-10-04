@@ -1,0 +1,6 @@
+v0.1.0: Added version counter;
+v0.2.0: Added settings menu;
+v0.3.0: Completed design for settings home screen;
+v0.4.0: Completed design for Web Settings screen and added a functional save button, plus an apply button (does not do anything yet);
+v0.4.1: Added a feature where unfinished items display a dialog that explains that they are unfinished;
+v0.5.0: An icon was added for the "Other" blocks;
