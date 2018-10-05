@@ -9,7 +9,7 @@ var doCompactBlocks = true;
 var version = {
   stage: 0,
   build: 5,
-  patch: 0
+  patch: 1
 };
 var fontList = [
   "Arial",
@@ -59,7 +59,7 @@ var websiteMeta = {
 Please allow me to explain the "scheme" variable.
 This controls all the blocks, categories, what they look like, and what they do.
 */
-scheme = {
+var scheme = {
   categories: {
     text: {
       blocks: {
@@ -71,23 +71,25 @@ scheme = {
               type: "textinput", //The type of input, in this case, a text box.
               label: "Text:", //The text the inspector will display when setting a label
               id: "parin", //The ID of the text box
-              multiline: true //This is not a multiline
+              multiline: true, //This is not a multiline
+              value: ''
             },
             size: {
               type: "range", //Just a normal <input type="range"> element
               label: "Size:",
               id: "parinsize",
               min: 8,
-              max: 100
+              max: 100,
+              value: ''
             },
             fontface: {
               type: "fontselect", //This is a dropdown of the available fonts, showcased in the fontList variable
               label: "Font:",
-              id: "parinfont"
+              id: "parinfont",
+              value: ''
             }
           },
-          /*script: `<p style="font-family: '${properties.fontface}'; font-size: ${properties.size}px;">${properties.text}</p>` //This is what the inspector is supposed to put in the body of the results page (id = rif).
-          //I can't get this to work, though, so help would be appreciated.*/
+           script: '' //This is the HTML code for the element. It is set later in the program because the variable could not get values within itself while declaring.
         },
         header: {
           name: "header",
@@ -250,8 +252,8 @@ scheme = {
     }
   }
 }
-
-
+//The scripts
+scheme.categories.text.blocks.par.script = `<p style="font-family: '${scheme.categories.text.blocks.par.properties.fontface}'; font-size: ${scheme.categories.text.blocks.par.properties.size}px;">${scheme.categories.text.blocks.par.properties.text}</p>`;
 
 
 block = function (b, c, pal) {
