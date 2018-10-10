@@ -30,7 +30,7 @@
 
 //Leave page warning (Thanks to Gabor Szabo on CodeMaven for making an article on this.)
 window.onbeforeunload = function() {
-   return "Changes you made may not have been saved";
+   return "Changes you made may not be saved";
 };
 </script>
   <noscript>
@@ -67,6 +67,9 @@ window.onbeforeunload = function() {
     <td>
       <img src="svg/settingsButton.svg" id="settingsButton" onclick="openSettingsHG()" class="noselect" onmouseenter="changeTooltip('Settings')" onmouseleave="changeTooltip(' ')">
     </td>
+    <td>
+      <img src="svg/consoleIcon.svg" id="consoleButton" onclick="openConsoleHG()" class="noselect" onmouseenter="changeTooltip('HTMLGenie Console')" onmouseleave="changeTooltip(' ')">
+    </td>
   </tr>
 </tbody>
   </table>
@@ -76,6 +79,14 @@ window.onbeforeunload = function() {
   <div style="display: none; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; padding-bottom: 50px; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5);" id="settingsBox">
   </div>
   <script src="settings.js"></script>
+  <!--The console box-->
+  <div id="consoleWrapper" style="display: none; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; padding-bottom: 50px; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5);">
+    <i class="fas fa-arrow-left" onclick="byeByeConsole()"></i><span style="padding-left: 10px;">Console <i class="fas fa-ban" onclick="hgc.clear()"></i></span>
+    <br>
+    <div id="consoleInnards" style="width: 50%; margin-left: 25%; margin-right: 25%; background-color: black; color: #00FF00; overflow-y: scroll; min-height: 50%;">
+    </div>
+    <script src="hgconsole.js"></script>
+  </div>
   <!--This is the juicy part-->
   <table id="mainTable">
     <tr class="container">

@@ -1,16 +1,27 @@
 var scheme = '';
 var blocks = 0;
 //The list of IDs for the superscript text in the layout
-var losi = []
+var losi = [];
 //The list of elements in the website
 var els = [];
 //This controls compacting blocks. This will be changeable in settings later on.
-var doCompactBlocks = true;
+var settings = {
+  doCompactBlocks: true,
+  doUseNewGlass: true,
+  debugMode: false,
+  menuBar: {
+    left: '#FFFFFF',
+    right: '#D3BC5F'
+  },
+  displayNotificationOnReload: true
+}
+
 var version = {
   stage: 0,
-  build: 5,
-  patch: 1
+  build: 6,
+  patch: 0
 };
+
 var fontList = [
   "Arial",
   "Arial Black",
@@ -34,9 +45,9 @@ unfinishedDialog = function () {
 var websiteMeta = {
   title: '', //Website title
   favicon: {
-    href: '', //Favicon source
-    size: 16,  //Favicon size (i.e. result will be <link...sizes=`${size}x${size}`>)
-    ext: 'ico' //Favicon file extension
+    href: 'favicon.png', //Favicon source
+    size: 192,  //Favicon size (i.e. result will be <link...sizes=`${size}x${size}`>)
+    ext: 'png' //Favicon file extension
   },
   iconSource: 0, //Whether to use FontAwesome (1), Bootstrap (2), Google Icons (3), or no icons (0)
   ic: { //ic stands for Images [and] Colo(u)rs
@@ -121,24 +132,11 @@ var scheme = {
           name: "table",
           label: "table",
           properties: {
-            /*
-            text: {
-              type: "textinput",
-              id: "headerin",
-              multiline: false
-            },
-            size: {
-              type: "range",
-              id: "headersize",
-              min: 8,
-              max: 100
-            },
-            fontface: {
-              type: "fontselect",
-              id: "headerfont"
-            }
-            */
-          },
+            contents: {
+              type: "table",
+              id: "tablet"
+          }
+        },
 
           script: function() {
             //var t = document.createElement("h1");
@@ -252,10 +250,18 @@ var scheme = {
     }
   }
 }
+
 //The scripts
 scheme.categories.text.blocks.par.script = `<p style="font-family: '${scheme.categories.text.blocks.par.properties.fontface}'; font-size: ${scheme.categories.text.blocks.par.properties.size}px;">${scheme.categories.text.blocks.par.properties.text}</p>`;
 
 
+applyLineToResult = function (hb, code) {
+  var d = document.getElementById("rif").contentDocument;
+  if (!hb == "head" || !hb == "body") {
+    throw new Error("Invalid tag in applyLineToResult. Must be \"head\" or \"body\". You used: \"" + hb + "\".");
+  }
+  eval("d." + hb + ".innerHTML = d." + hb + ".innerHTML + \"" + code + "\";");
+}
 block = function (b, c, pal) {
   if (!pal) {
     blocks++;
@@ -326,13 +332,13 @@ appendBlockToPalette = function (b, c) {
   bl.setAttribute("onclick", "appendBlockToLayout(\"" + b + '\", \"' + c + '\")');
   bl.style.cursor = "e-resize";
   /*
-  if (!doCompactBlocks) {
+  if (!settings.doCompactBlocks) {
     bl.style.borderBottom = "15px solid white";
   }
   */
   d.appendChild(bl);
   d.appendChild(br);
-  if (!doCompactBlocks) {
+  if (!settings.doCompactBlocks) {
     d.appendChild(bs);
   }
 }
@@ -344,7 +350,7 @@ appendBlockToLayout = function (b, c) {
   bl.style.cursor = "url('glass.cur'), auto;"
   d.appendChild(bl);
   d.appendChild(br);
-  if (!doCompactBlocks) {
+  if (!settings.doCompactBlocks) {
     d.appendChild(bs);
   }
   var s = document.getElementById(losi[losi.length - 1]);
@@ -395,3 +401,51 @@ var saveFileHG = function () {
 var buildSiteHG = function () {
   unfinishedDialog();
 }
+
+var openConsoleHG = function () {
+  var cb = document.getElementById("settingBorder");
+  var c = document.getElementById("consoleWrapper");
+  var ca = document.getElementById("consoleInnards");
+
+  cb.setAttribute("style", "display: inline-block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;");
+  c.setAttribute("style", "display: inline-block; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5); max-height: 50%;");
+}
+
+var byeByeConsole = function () {
+  var cb = document.getElementById("settingBorder");
+  var c = document.getElementById("consoleWrapper");
+  var ca = document.getElementById("consoleInnards");
+
+  cb.setAttribute("style", "display: none; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;");
+  c.setAttribute("style", "display: none; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5); max-height: 50%");
+}
+/*
+Types that will hopefully be added in:
+textinput (multiline (t/f))
+range (min, max)
+fontselect
+colorinput
+table
+*/
+//Under construction
+/*
+var inspectorWrite = function (thing) {
+  var i = document.getElementById('inspector')
+  var temp;
+  switch (thing.type) {
+    case 'textinput':
+    temp = `
+      <p>${thing.label}</p>
+      <br>
+      <input type="text" id="${thing.id}">
+      `
+      if (thing.multiline) {
+      temp = `
+        <p>${thing.label}</p>
+        <br>
+        <textarea id="${thing.id}"></textarea>
+        `
+      }
+  }
+}
+*/

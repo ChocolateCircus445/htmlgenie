@@ -7,6 +7,11 @@ var ovrl;
 HTMLElement.prototype.addHTML = function (html) {
   this.innerHTML += '\n' + html;
 }
+/*
+HTMLElement.prototype.clearHTML = function () {
+  this.innerHTML = '';
+}
+*/
 openSettingsHG = function () {
   sb.setAttribute("style", "display: inline-block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;");
   s.setAttribute("style", "display: inline-block; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5); cursor: url(\"img/settings/wrench.cur\"), auto; max-height: 50%;");
@@ -78,19 +83,54 @@ addFonts = function (id) {
 doSavePageSettings = function () {
   `Started at ${new Date()}`.log();
   websiteMeta.title = document.getElementById("settingsPageTitle").value;
+  hgc.log(new String("websiteMeta.title = " + websiteMeta.title));
   websiteMeta.favicon.href = document.getElementById("settingsFaviconSource").value;
+  hgc.log(new String("websiteMeta.favicon.href = " + websiteMeta.favicon.href));
   websiteMeta.favicon.size = document.getElementById("settingsFaviconSize").value;
+  hgc.log(new String("websiteMeta.favicon.size = " + websiteMeta.favicon.size));
   websiteMeta.favicon.ext = document.getElementById("settingsFaviconFileExtension").value;
+  hgc.log(new String("websiteMeta.favicon.ext = " + websiteMeta.favicon.ext));
   websiteMeta.iconSource = document.getElementById("settingsIconLibrary").value;
+  hgc.log(new String("websiteMeta.iconSource = " + websiteMeta.iconSource));
   websiteMeta.ic.background.isColor = document.getElementById("settingsUseBackgroundColor").checked;
+  hgc.log(new String("websiteMeta.ic.background.isColor = " + websiteMeta.ic.background.isColor));
   websiteMeta.ic.background.decoration = document.getElementById("settingsColorURL").value;
+  hgc.log(new String("websiteMeta.ic.background.decoration = " + websiteMeta.ic.background.decoration));
   websiteMeta.ic.text.font = document.getElementById("settingsDefaultFont").value;
+  hgc.log(new String("websiteMeta.ic.text.font = " + websiteMeta.ic.text.font));
   websiteMeta.ic.text.color = document.getElementById("settingsTextColor").value;
+  hgc.log(new String("websiteMeta.ic.text.color = " + websiteMeta.ic.text.color));
   evalDec();
   websiteMeta.ic.text.decoration.underline = document.getElementById("settingsTextIsUnderlined").checked;
+  hgc.log(new String("websiteMeta.ic.text.decoration.underline = " + websiteMeta.ic.text.decoration.underline));
   websiteMeta.ic.text.decoration.strikethrough = document.getElementById("settingsTextIsStrikethrough").checked;
+  hgc.log(new String("websiteMeta.ic.text.decoration.strikethrough = " + websiteMeta.ic.text.decoration.strikethrough));
   websiteMeta.ic.text.decoration.overline = document.getElementById("settingsTextIsOverlined").checked;
+  hgc.log(new String("websiteMeta.ic.text.decoration.overline = " + websiteMeta.ic.text.decoration.overline));
   `Finished at ${new Date}`.log();
   websiteMeta.log();
 
+}
+
+function doApplyPageSettings () {
+  `Started at ${new Date()}`.log();
+  applyLineToResult("head", "<link href=\"https:\/\/fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">");
+  applyLineToResult("head", "<link href=\"https:\/\/fonts.googleapis.com/css?family=Ubuntu\" rel=\"stylesheet\">");
+  applyLineToResult("head", `<title>${websiteMeta.title}</title>`);
+  switch (websiteMeta.iconSource) {
+    case 1:
+      applyLineToResult("head", `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">`);
+      break;
+    case 2:
+      applyLineToResult("head", `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>`);
+      break;
+    case 3:
+      applyLineToResult("head", `<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">`);
+      break;
+    default:
+      applyLineToResult("head" `<!--No icons!-->`);
+      break;
+  }
 }
