@@ -58,6 +58,6 @@ var hgc = {
 var listenToKey = function (event) {
   var k = event.keyCode;
   if (k == 99 || k == 67) {
-    hgc.clear;
+    hgc.clear();
   }
 }
