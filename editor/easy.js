@@ -1,6 +1,8 @@
 var openFileIdList = [];
 var fileList = [];
 var currentFile = '';
+var bloblist = [];
+var ftlist = [];
 
 
 String.prototype.log = function () {
@@ -114,10 +116,10 @@ Object.prototype.log = function () {
   console.info(this);
 }
 Object.prototype.warn = function () {
-  console.info(this);
+  console.warn(this);
 }
 Object.prototype.error = function () {
-  console.info(this);
+  console.error(this);
 }
 Object.prototype.info = function () {
   console.info(this);
@@ -199,4 +201,22 @@ doTimes = function (num, callback) {
   for (var i = 0; i < num; i++) {
     callback();
   }
+}
+
+
+saveForeignImage = function (url, name) {
+  var x = new XMLHttpRequest();
+  x.responseType = "blob";
+  x.onload = function() {
+    bloblist.push(x.response);
+    ftlist.push(name);
+    return x.response;
+  }
+  try {
+  x.open("GET", url);
+  x.send();
+ }
+ catch (e) {
+   hgc.error(e);
+ }
 }

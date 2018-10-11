@@ -25,6 +25,8 @@ td.part {
 #rif {
   width: inherit;
   height: 91.5%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 div.menuBar {
   background-image: linear-gradient(to right, rgb(255, 255, 255) 21%, rgb(211, 188, 95) 100%);

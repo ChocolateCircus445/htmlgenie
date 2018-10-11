@@ -6,3 +6,4 @@ v0.4.1: Added a feature where unfinished items display a dialog that explains th
 v0.5.0: An icon was added for the "Other" blocks
 v0.5.1: The script value for the blocks was figured out. We're getting closer to finishing the inspector!
 v0.6.0: Debugger's paradise. Added console, Partially finished the apply button, and added a new magnifying glass cursor.
+v0.7.0: Finished the Apply button and added icon support for the webpage. Also, a few sparkles here and there.

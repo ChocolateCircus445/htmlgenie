@@ -7,11 +7,11 @@ var ovrl;
 HTMLElement.prototype.addHTML = function (html) {
   this.innerHTML += '\n' + html;
 }
-/*
+
 HTMLElement.prototype.clearHTML = function () {
   this.innerHTML = '';
 }
-*/
+
 openSettingsHG = function () {
   sb.setAttribute("style", "display: inline-block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;");
   s.setAttribute("style", "display: inline-block; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5); cursor: url(\"img/settings/wrench.cur\"), auto; max-height: 50%;");
@@ -36,7 +36,30 @@ websiteSettings = function () {
   s.addHTML('<form><b>Text settings</b><br><span style="padding-right: 10px;">Default font:</span><select id="settingsDefaultFont" class="textBoxHG"><option value="Arial">Arial</option><option value="Arial Black">Arial Black</option><option value="Comic Sans MS">Comic Sans MS</option><option value="Courier New">Courier New</option><option value="Georgia">Georgia</option><option value="Impact">Impact</option><option value="Lucida Console">Lucida Console</option><option value="Lucida Sans Unicode">Lucida Sans Unicode</option><option value="Palatino Linotype">Palatino Linotype</option><option value="Roboto">Roboto</option><option value="Tahoma">Tahoma</option><option value="Times New Roman" selected>Times New Roman</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Ubuntu">Ubuntu</option><option value="Verdana">Verdana</option></select><br>' +
   '<span style="padding-right: 10px;">Text color:</span><input type="color" class="colorHG" id="settingsTextColor"><br>' +
   '<span style="padding-right: 10px;">Text decoration</span><br><input type="checkbox" id="settingsTextIsUnderlined">Underlined<br><input type="checkbox" id="settingsTextIsStrikethrough">Strikethrough<br><input type="checkbox" id="settingsTextIsOverlined">Overlined</form>');
-  s.addHTML('<div><button class="settingsSaveButton" id="settingsSaveButton" onclick="doSavePageSettings()">Save</button><button class="settingsApplyButton" id="settingsApplyButton" onclick="doApplyMeta()">Apply</button></div>')
+  s.addHTML('<div><button class="settingsSaveButton" id="settingsSaveButton" onclick="doSavePageSettings()">Save</button><button class="settingsApplyButton" id="settingsApplyButton" onclick="doApplyPageSettings()">Apply</button></div>');
+  document.getElementById('settingsPageTitle').value = websiteMeta.title;
+  document.getElementById("settingsFaviconSource").value = websiteMeta.favicon.href;
+  document.getElementById("settingsFaviconSize").value = websiteMeta.favicon.size;
+  document.getElementById("settingsFaviconFileExtension").value = websiteMeta.favicon.ext;
+  document.getElementById("settingsIconLibrary").value = websiteMeta.iconSource;
+  if (websiteMeta.ic.background.isColor) {
+    document.getElementById("settingsUseBackgroundColor").click();
+  } else {
+    document.getElementById("settingsUseBackgroundImage").click();
+  }
+  document.getElementById("settingsColorURL").value = websiteMeta.ic.background.decoration;
+  document.getElementById("settingsDefaultFont").value = websiteMeta.ic.text.font;
+  document.getElementById("settingsTextColor").value = websiteMeta.ic.text.color;
+  if (websiteMeta.ic.text.decoration.underline) {
+    document.getElementById("settingsTextIsUnderlined").click();
+  }
+  if (websiteMeta.ic.text.decoration.strikethrough) {
+    document.getElementById("settingsTextIsStrikethrough").click();
+  }
+  if (websiteMeta.ic.text.decoration.overline) {
+    document.getElementById("settingsTextIsOverlined").click();
+  }
+
 }
 
 evalCU = function () {
@@ -116,21 +139,68 @@ function doApplyPageSettings () {
   `Started at ${new Date()}`.log();
   applyLineToResult("head", "<link href=\"https:\/\/fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">");
   applyLineToResult("head", "<link href=\"https:\/\/fonts.googleapis.com/css?family=Ubuntu\" rel=\"stylesheet\">");
+  hgc.log("Added font CSS");
   applyLineToResult("head", `<title>${websiteMeta.title}</title>`);
+  hgc.log(`Website title is ${websiteMeta.title}`);
+  applyLineToResult("head", `<link rel="icon" type="image/${websiteMeta.favicon.ext}" sizes="${websiteMeta.favicon.size}x${websiteMeta.favicon.size}" href="${websiteMeta.favicon.href}">`)
+  hgc.log(`Icon: Source: ${websiteMeta.favicon.href}, Size (Square): ${websiteMeta.favicon.size}, File Extension: ${websiteMeta.favicon.ext}`);
   switch (websiteMeta.iconSource) {
     case 1:
       applyLineToResult("head", `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">`);
       break;
     case 2:
-      applyLineToResult("head", `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>`);
+      applyLineToResult("head", `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">`);
       break;
     case 3:
       applyLineToResult("head", `<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">`);
       break;
     default:
-      applyLineToResult("head" `<!--No icons!-->`);
+      applyLineToResult("head", `<!--No icons!-->`);
       break;
   }
+  var decList = [];
+  var careAboutList = true;
+  if (websiteMeta.ic.text.decoration.underline) {
+    decList.push('underline');
+  }
+  if (websiteMeta.ic.text.decoration.strikethrough) {
+    decList.push('line-through');
+  }
+  if (websiteMeta.ic.text.decoration.overline) {
+    decList.push('overline');
+  }
+  if (decList.length == 0) {
+    careAboutList = false;
+  }
+  var decc = decList.join(' ');
+  var cssDec = new String();
+  if (careAboutList) {
+    cssDec = `text-decoration: ${decc};`;
+  } else {
+    cssDec = "";
+  }
+  if (websiteMeta.ic.background.isColor) {
+    applyLineToResult("head", `
+    <style>
+    body {
+      background-color: ${websiteMeta.ic.background.decoration};
+      color: ${websiteMeta.ic.text.color};
+      font-family: '${websiteMeta.ic.text.font}';
+      ${cssDec}
+    }
+    </style>
+    `);
+  } else {
+    applyLineToResult("head", `
+    <style>
+    body {
+      background-image: url("${websiteMeta.ic.background.decoration}");
+      color: ${websiteMeta.ic.text.color};
+      font-family: '${websiteMeta.ic.text.font}';
+      ${cssDec}
+    }
+    </style>
+    `);
+  }
+  `Finished at ${new Date}`.log();
 }

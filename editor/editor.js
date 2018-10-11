@@ -4,11 +4,12 @@ var blocks = 0;
 var losi = [];
 //The list of elements in the website
 var els = [];
-//This controls compacting blocks. This will be changeable in settings later on.
+//The editor settings
 var settings = {
   doCompactBlocks: true,
   doUseNewGlass: true,
   debugMode: false,
+  showVersionNumber: true,
   menuBar: {
     left: '#FFFFFF',
     right: '#D3BC5F'
@@ -18,7 +19,7 @@ var settings = {
 
 var version = {
   stage: 0,
-  build: 6,
+  build: 7,
   patch: 0
 };
 
@@ -45,7 +46,7 @@ unfinishedDialog = function () {
 var websiteMeta = {
   title: '', //Website title
   favicon: {
-    href: 'favicon.png', //Favicon source
+    href: 'https://github.com/ChocolateCircus445/htmlgenie/blob/master/editor/favicon.png?raw=true', //Favicon source
     size: 192,  //Favicon size (i.e. result will be <link...sizes=`${size}x${size}`>)
     ext: 'png' //Favicon file extension
   },
@@ -53,7 +54,7 @@ var websiteMeta = {
   ic: { //ic stands for Images [and] Colo(u)rs
     background: {
       isColor: true, //If true, this is a colo(u)r, if false, this is an image.
-      decoration: 'white' //This is a colo(u)r if isColor is true, otherwise, this is an image link.
+      decoration: '#FFFFFF' //This is a colo(u)r if isColor is true, otherwise, this is an image link.
     },
     text: {
       font: 'Times New Roman', //The font to use for the majority of the website
@@ -257,10 +258,15 @@ scheme.categories.text.blocks.par.script = `<p style="font-family: '${scheme.cat
 
 applyLineToResult = function (hb, code) {
   var d = document.getElementById("rif").contentDocument;
+
   if (!hb == "head" || !hb == "body") {
     throw new Error("Invalid tag in applyLineToResult. Must be \"head\" or \"body\". You used: \"" + hb + "\".");
   }
-  eval("d." + hb + ".innerHTML = d." + hb + ".innerHTML + \"" + code + "\";");
+  if (hb == "head") {
+    d.head.innerHTML += code + '\n';
+  } else {
+    d.body.innerHTML += code + '\n';
+  }
 }
 block = function (b, c, pal) {
   if (!pal) {
