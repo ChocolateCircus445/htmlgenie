@@ -1,0 +1,132 @@
+<html>
+<head>
+  <title>About HTMLGenie</title>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+<style>
+body {
+  text-align: center;
+}
+.p {
+  z-index: 2;
+  position: relative;
+  top: -150;
+  left: -25%;
+  text-decoration: none;
+}
+.l {
+  z-index: 2;
+  position: relative;
+  top: -150;
+  left: -7%;
+  text-decoration: none;
+}
+.i {
+  z-index: 2;
+  position: relative;
+  top: -150;
+  left: 9%;
+  text-decoration: none;
+}
+.r {
+  z-index: 2;
+  position: relative;
+  top: -150;
+  left: 25%;
+  text-decoration: none;
+}
+
+.tryButton {
+  font-family: 'Ubuntu';
+  background-color: #50a5ff;
+  color: white;
+  border-color: blue;
+  border-width: medium;
+  border-radius: 15px;
+  height: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: linear;
+  transition-duration: 0.3s;
+}
+
+.tryButton:hover {
+  background-color: blue;
+  transition: linear;
+  transition-duration: 0.3s;
+}
+
+p.unfinished::after {
+  color: red;
+  content: "Warning: This is unfinished! What you see here might not be in the final release.";
+  font-weight: bold;
+}
+</style>
+<body style="font-family: 'Ubuntu';">
+  <img src="editor/svg/logo.svg" width="240" height="180">
+  <h1>HTMLGenie</h1>
+  <b>Current version</b>
+  <p id="verNum">Fetching</p>
+  <script>
+  var x = new XMLHttpRequest();
+  var r;
+  x.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      r = this.responseText;
+      console.log(r);
+      r = r.split('\n');
+      console.log(r);
+      var l = r.length - 2;
+      r = r[l];
+      r = r.split(':');
+      console.log(r);
+      r = r[0];
+      document.getElementById("verNum").innerHTML = r + 'α';
+    }
+  }
+  x.open("GET", "https://raw.githubusercontent.com/ChocolateCircus445/htmlgenie/master/changelog.txt", true);
+  x.send();
+  </script>
+  <form action="https://chocolatecircus445.github.io/htmlgenie/editor/editor.html">
+  <button class="tryButton" type="submit">Try it</button>
+  </form>
+  <p>
+    HTMLGenie is a project that aims to teach children about open source projects by building their own websites.
+    The semantics aren't quite figured out yet, but hopefully they will be soon.
+    HTMLGenie lets children build their own websites in blocks, similar to <a href="https://scratch.mit.edu">Scratch</a> and
+    <a href="https://snap.berkeley.edu">Snap!</a>.
+  </p>
+  <div style="display: block; width: 50%; margin-left: 25%; margin-right: 25%;">
+  <img src="img/1.png" style="width: 50%; float: left;">
+  <img src="img/2.png" style="width: 50%; float: left;" height="378">
+  <br>
+  <div>
+  <img src="img/3.png" style="width: 100%; position: relative;">
+  <a class="p" href="#pB">Palette</a>
+  <a class="l" href="#lB">Layout</a>
+  <a class="i" href="#iB">Inspector</a>
+  <a class="r" href="#rB">Results</a>
+</div>
+  </div>
+<br>
+<p>
+  Different categories hold different blocks. When clicking a block from the palette, it automatically moves itself to the layout. Upon clicking a block in the layout, You can view its properties in the Inspector. You can get a live demonstration of the page in the Results area.
+</p>
+<h3 id="pB">Palette</h3>
+<p>The palette consists of 4 categories: Text, Images & Videos, Input, and Other Blocks.
+  When you click on the categories, blocks are loaded for that specific category. Each block also
+  equates to a specific HTML tag. For example, <span style="color: #FFFFFF; background-color: #AF0E0E; font-family: verdana; padding-right: 10px;"><img src="editor/svg/textw.svg"> text</span> in HTMLGenie is &lt;p&gt; in HTML. There might be an HTMLGenie to HTML conversion chart sometime in the future, but for now, that's not happening.
+  When you click on a block, it will automatically move to the layout.
+
+</p>
+<br>
+<h3 id="lB">Layout</h3>
+<p>The layout is where the blocks go when they are selected. This is also how your page will be arranged. When hovering over the blocks, your cursor will turn into a <span style="cursor: url('editor/glass6.cur'),auto;">magnifying glass</span>. Upon clicking an element, its properties will be displayed in the inspector</p>
+<h3 id="iB">Inspector</h3>
+<p class="unfinished"></p>
+<p>The inspector is where the element's properties can be seen. The inspector will feature a delete button for deleting elements and some text boxes and input forms for modifying properties. When the user is done modifying, he or she can click the "Save" button and add it to the page.</p>
+<h3 id="rB">Results</h3>
+<p>This part is the finished product. The user can change anything about it with the previously mentioned layouts.</p>
+<b>Help is greatly appreciated. Why not share this page on Facebook or Twitter?</b>
+</body>
+</html>
