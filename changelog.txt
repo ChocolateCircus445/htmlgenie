@@ -8,3 +8,4 @@ v0.5.1: The script value for the blocks was figured out. We're getting closer to
 v0.6.0: Debugger's paradise. Added console, Partially finished the apply button, and added a new magnifying glass cursor.
 v0.7.0: Finished the Apply button and added icon support for the webpage. Also, a few sparkles here and there.
 v0.8.0: Finished the Editor Settings screen and added a system for storing settings in local storage.
+v0.8.1: Fixed bug where the HTMLGenie logo would link to a non-existent URL.

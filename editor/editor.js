@@ -73,7 +73,7 @@ var settings = {
 var version = {
   stage: 0,
   build: 8,
-  patch: 0
+  patch: 1
 };
 
 var fontList = [
@@ -489,9 +489,9 @@ range (min, max)
 fontselect
 colorinput
 table
-*/
-//Under construction
-/*
+
+Under construction
+
 var inspectorWrite = function (thing) {
   var i = document.getElementById('inspector')
   var temp;
