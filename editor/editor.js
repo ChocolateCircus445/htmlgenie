@@ -4,22 +4,75 @@ var blocks = 0;
 var losi = [];
 //The list of elements in the website
 var els = [];
+var lcs;
+
+
+if (localStorage.getItem("htmlgenieEdSet") == null) {
+  lcs = {
+    fill: `${randomNumber(1, 2) - 1}${randomNumber(1, 2) - 1}${randomNumber(1, 2) - 1}`, //The settings are stored as a single Unicode character. We need to make the binary code 16 bits, so we add these 3 binary digits to fill up space.
+    content: `11011`, //This is the meat of it all. These 5 digits are your settings.
+    l: "FFFFFF",
+    r: "D3BC5F", //lcs.l and lcs.r aren't encoded at all.
+    fb: "0",
+    result: `foobar`
+    /*
+    Here are the letters you might get when using default settings:
+    [ESC], ;, [, {, ›, », Û, and û
+    */
+  }
+  lcs.result = `${String.fromCharCode(parseInt(lcs.fill + lcs.content, 2).toString(10))}${lcs.l}${lcs.r}`; //Converts binary to ASCII.
+
+  localStorage.setItem("htmlgenieEdSet", lcs.result); //Stores in local storage (because cookies didn't work for some reason).
+}
+  var gs = localStorage.getItem("htmlgenieEdSet");
+  //Let's say that the value stored in settings, called "val", was "»FFFFFFD3BC5F".
+  if (gs.length < 13) {
+    "Settings were malformed. This is not fatal, but the user will not be able to retrieve their settings.".error();
+    //Tfw the settings string is too long >.< #programmerproblems
+    //I'm not sorry about that.
+  } else {
+    var decode = gs.substring(0, 1); //Isolates the character. val = "»"
+    decode = decode.charCodeAt(0).toString(2); //Gets the Unicode of val. val = 10111011
+    decode = decode.substring(decode.length - 5); //Takes out the filler. val = 11011
+    //Voila! You have your settings in binary! Now all you have to do is convert them to trues and falses. Hmm, I wonder how?...
+
+    lcs = {
+      fill: decode.substring(0, 2),
+      content: decode,
+      l: gs.substring(1, 7),
+      r: gs.substring(7, 14),
+      result: gs
+    }
+  }
+//...Oh, wait, here's how.
+var truthList = [];
+for (i = 0; i < decode.length || i == decode.length; i++) {
+  if (lcs.content.charCodeAt(i) == 48) { //If character (i) of the word is 0, report false.
+    truthList.push(false);
+  } else {
+    truthList.push(true);
+    //Otherwise, report true.
+  }
+}
+
+
+
 //The editor settings
 var settings = {
-  doCompactBlocks: true,
-  doUseNewGlass: true,
-  debugMode: false,
-  showVersionNumber: true,
+  doCompactBlocks: truthList[0],
+  doUseNewGlass: truthList[1],
+  debugMode: truthList[2],
+  showVersionNumber: truthList[3],
   menuBar: {
-    left: '#FFFFFF',
-    right: '#D3BC5F'
+    left: `#${lcs.l}`,
+    right: `#${lcs.r}`
   },
-  displayNotificationOnReload: true
+  displayNotificationOnReload: truthList[4]
 }
 
 var version = {
   stage: 0,
-  build: 7,
+  build: 8,
   patch: 0
 };
 
@@ -287,7 +340,11 @@ block = function (b, c, pal) {
   bl.setAttribute("style", "background-color: " + ct.color + "; color: " + cl + '; display: inline-block; padding-right: 10px;');
   bl.setAttribute("class", "noselect");
   if (!pal) {
-    bl.setAttribute("class", "noselect magnifyCursor");
+    if (settings.doUseNewGlass) {
+      bl.setAttribute("class", "noselect magnifyCursor");
+    } else {
+      bl.setAttribute("class", "noselect magnifyCursorClassic")
+    }
     var lt = randomNumber(111111, 999999);
     if (lt > 999999) {
       var lt = randomNumber(111111, 999999);

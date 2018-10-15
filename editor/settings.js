@@ -16,7 +16,7 @@ openSettingsHG = function () {
   sb.setAttribute("style", "display: inline-block; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;");
   s.setAttribute("style", "display: inline-block; z-index: 15; position: fixed; top: 25%; right: 25%; width: 50%; background-color: #BFBFBF; overflow-y: scroll; border-width: 100px; border-color: rgba(191, 191, 191, 0.5); cursor: url(\"img/settings/wrench.cur\"), auto; max-height: 50%;");
   //s.setAttribute("class", "dialogBorder");
-  s.innerHTML = "<i class=\"fas fa-arrow-left\" onclick=\"byeByeSettings()\"></i><span style=\"padding-left: 10px;\">Settings</span>\n<table style=\"width: 100%; table-layout: fixed; align: center;\">\n<tr>\n<td><img src=\"img/settings/websettings.svg\" width=\"250\" height=\"250\" style=\"padding-left: 49px; padding-right: 49px;\" onclick=\"websiteSettings()\"></td>\n<td><img src=\"img/settings/editorsettings.svg\" width=\"250\" height=\"250\" style=\"padding-left: 49px; padding-right: 49px;\" onclick=\"unfinishedDialog()\"></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">Website Settings</td>\n<td style=\"text-align: center;\">Editor Settings</td>\n</tr>\n<tr>\n<td></td>\n<td style=\"text-align: center; font-size: 8;\"><b>NOTE:</b> This requires reloading the page to make changes.</td>\n</tr>\n</table>"
+  s.innerHTML = "<i class=\"fas fa-arrow-left\" onclick=\"byeByeSettings()\"></i><span style=\"padding-left: 10px;\">Settings</span>\n<table style=\"width: 100%; table-layout: fixed; align: center;\">\n<tr>\n<td><img src=\"img/settings/websettings.svg\" width=\"250\" height=\"250\" style=\"padding-left: 49px; padding-right: 49px;\" onclick=\"websiteSettings()\"></td>\n<td><img src=\"img/settings/editorsettings.svg\" width=\"250\" height=\"250\" style=\"padding-left: 49px; padding-right: 49px;\" onclick=\"editorSettings()\"></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">Website Settings</td>\n<td style=\"text-align: center;\">Editor Settings</td>\n</tr>\n<tr>\n<td></td>\n<td style=\"text-align: center; font-size: 8px;\"><b>NOTE:</b> This requires reloading the page to make changes.</td>\n</tr>\n</table>"
 }
 byeByeSettings = function () {
   sb.setAttribute("style", "display: none; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;");
@@ -203,4 +203,164 @@ function doApplyPageSettings () {
     `);
   }
   `Finished at ${new Date}`.log();
+}
+function changeFakeColor () {
+  var cl = document.getElementById("settingsColorLeft");
+  var cr = document.getElementById("settingsColorRight");
+  var fmb = document.getElementById("settingsFake");
+  fmb.setAttribute("style", `background-image: linear-gradient(to right, ${cl.value} 21%, ${cr.value} 100%);`);
+}
+
+
+editorSettings = function () {
+  s.clearHTML();
+  s.addHTML('<i class="fas fa-arrow-left" onclick="openSettingsHG()">');
+  s.addHTML('<span style="padding-left: 10px;">Editor Settings</span>');
+  s.addHTML('<br>\n<br>');
+  s.addHTML(`
+    <span>
+    Use compacted blocks
+    <input type="checkbox" id="settingsUseCompactBlocks">
+    </span>
+    <br>
+    <span>
+    <img src="img/settings/compactBlocks.png" width="255" height="255" alt title="Compacted blocks">
+    <img src="img/settings/regularBlocks.png" width="255" height="255" alt title="Regular blocks">
+    <!--Oh, yeah, these screenshots are from an earlier build of HTMLGenie where the Input category didn't have an icon yet.-->
+    </span>
+    <br>
+    <span>
+    Use new magnifying glass cursor (0.6.0)
+    <input type="checkbox" id="settingsUseNewGlass">
+    </span>
+    <br>
+    <table>
+    <tr>
+    <td>
+    <div style="border-color: black; border-style: solid; width: 100px; height: 100px; cursor: url('glass6.cur'), auto;">
+    <p>New cursor</p>
+    </div>
+    </td>
+    <td>
+    <div style="border-color: black; border-style: solid; width: 100px; height: 100px; cursor: url('glass.cur'), auto;">
+    <p>Old cursor</p>
+    </div>
+    </td>
+    </tr>
+    </table>
+    <br>
+    <span>
+    Use debug mode
+    <input type="checkbox" id="settingsUseDebug">
+    </span>
+    <br>
+    <span>
+    Show the version number of HTMLGenie in the top right corner
+    <input type="checkbox" id="settingsShowVersionNumber">
+    </span>
+    <br>
+    <span>
+    Upon reloading or leaving the page, remind me that I might not have saved my work
+    <input type="checkbox" id="settingsShowSaveDialog">
+    </span>
+    <br>
+    <p>Menu bar color</p>
+    <table style="table-layout: fixed; border-style: solid; border-color: black; border-bottom-style: none;">
+    <tr>
+    <td style="text-align: center;">
+    Left color
+    <br>
+    <input type="color" id="settingsColorLeft" class="colorHG" value="${settings.menuBar.left}" onchange="changeFakeColor()">
+    </td>
+    <td style="text-align: center;">
+    Right color
+    <br>
+    <input type="color" id="settingsColorRight" class="colorHG" value="${settings.menuBar.right}" onchange="changeFakeColor()">
+    </td>
+    </tr>
+    </table>
+    <div id="settingsFake" class="settingsMenuColor" style="background-image: linear-gradient(to right, ${settings.menuBar.left} 21%, ${settings.menuBar.right} 100%);">
+    </div>
+    <br>
+    <div style="width: 100%;">
+      <button class="settingsSaveButton" onclick="resetEditorSettings(true)" style="width: 100%;">Reset settings</button>
+      <button class="settingsSaveButton" onclick="saveEditorSettings()" style="width: 100%;">Save settings</button>
+    </div>
+    `)
+    eval(`
+      document.getElementById("settingsUseCompactBlocks").checked = ${settings.doCompactBlocks};
+      document.getElementById("settingsUseNewGlass").checked = ${settings.doUseNewGlass};
+      document.getElementById("settingsUseDebug").checked = ${settings.debugMode};
+      document.getElementById("settingsShowVersionNumber").checked = ${settings.showVersionNumber};
+      document.getElementById("settingsShowSaveDialog").checked = ${settings.displayNotificationOnReload};
+      document.getElementById("settingsFake").setAttribute("style", "background-image: linear-gradient(to right, ${document.getElementById("settingsColorLeft").value} 21%, ${document.getElementById("settingsColorRight").value} 100%);")
+      `)
+}
+
+
+resetEditorSettings = function (cfrm) {
+  if (cfrm) {
+    var cfm = confirm("Are you sure you want to reset your settings?");
+    if (!cfm) {
+      return;
+    }
+  }
+  document.getElementById("settingsUseCompactBlocks").checked = true;
+  document.getElementById("settingsUseNewGlass").checked = true;
+  document.getElementById("settingsUseDebug").checked = false;
+  document.getElementById("settingsShowVersionNumber").checked = true;
+  document.getElementById("settingsShowSaveDialog").checked = true;
+  document.getElementById("settingsColorLeft").value = "#FFFFFF";
+  document.getElementById("settingsColorRight").value = "#D3BC5F";
+}
+
+saveEditorSettings = function () {
+  var binContent = new String();
+  if (document.getElementById("settingsUseCompactBlocks").checked) {
+    binContent += "1";
+  } else {
+    binContent += "0";
+  }
+  if (document.getElementById("settingsUseNewGlass").checked) {
+    binContent += "1";
+  } else {
+    binContent += "0";
+  }
+  if (document.getElementById("settingsUseDebug").checked) {
+    binContent += "1";
+  } else {
+    binContent += "0";
+  }
+  if (document.getElementById("settingsShowVersionNumber").checked) {
+    binContent += "1";
+  } else {
+    binContent += "0";
+  }
+  if (document.getElementById("settingsShowSaveDialog").checked) {
+    binContent += "1";
+  } else {
+    binContent += "0";
+  }
+  hgc.log(`settings content in binary: ${binContent}`);
+  var fill = `${randomNumber(1, 2) - 1}${randomNumber(1, 2) - 1}${randomNumber(1, 2) - 1}`;
+  var finishedBin = fill + binContent;
+  hgc.log(`settings in binary: ${finishedBin}`)
+  var selet = String.fromCharCode(parseInt(finishedBin, 2).toString(10));
+  hgc.log(`settings in ASCII: ${selet}`);
+  var cLeft = document.getElementById("settingsColorLeft").value;
+  cLeft = cLeft.substring(1);
+  hgc.log(`left color: ${cLeft}`);
+  var cRight = document.getElementById("settingsColorRight").value;
+  cRight = cRight.substring(1);
+  hgc.log(`right color: ${cRight}`);
+  var finProd = `${selet}${cLeft}${cRight}`
+  localStorage.setItem("htmlgenieEdSet", finProd);
+  if (!localStorage.getItem("htmlgenieEdSet") == finProd) {
+    hgc.error(`htmlgenieEdSet is supposed to equal ${finProd}, but
+      actually equals ${localStorage.getItem("htmlgenieEdSet")}`);
+  }
+  var chc = confirm("Settings have been saved, however, the page needs to be reloaded in order for them to take effect.\nWould you like to reload now?");
+  if (chc) {
+    location.reload();
+  }
 }

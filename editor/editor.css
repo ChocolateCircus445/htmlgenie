@@ -15,7 +15,7 @@ div.bcontent {
 }
 #mainTable {
   width: 100%;
-  height: 90%;
+  height: 620px;
 
 }
 td.part {
@@ -29,7 +29,7 @@ td.part {
   overflow-y: scroll;
 }
 div.menuBar {
-  background-image: linear-gradient(to right, rgb(255, 255, 255) 21%, rgb(211, 188, 95) 100%);
+
 }
 #cc {
   width: 100%;
@@ -103,6 +103,10 @@ div.categoryOthers {
 
 .magnifyCursor {
   cursor: url('glass6.cur'), auto;
+}
+
+.magnifyCursorClassic {
+  cursor: url('glass.cur'), auto;
 }
 
 div.settings {
@@ -197,4 +201,12 @@ img.settingsBorder {
   border-color: #50a5ff;
   border-width: 15px;
   border-radius: 15px;
+}
+
+div.settingsMenuColor {
+  width: 167px;
+  height: 30px;
+  border-style: solid;
+  border-color: black;
+  border-top-style: none;
 }

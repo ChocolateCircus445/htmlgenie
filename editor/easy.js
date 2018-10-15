@@ -220,3 +220,20 @@ saveForeignImage = function (url, name) {
    hgc.error(e);
  }
 }
+
+PseudoVariable = function (name, val, readonly = false) {
+  this.value = val;
+  this.readonly = readonly;
+  this.type = typeof this.value;
+  this.name = name;
+  this.set = function (value, r = this.readonly, v = this.value, n = this.name) {
+    if (r) {
+      throw new Error(n + " is a constant, and therefore cannot be set.");
+      return;
+    }
+    v = value;
+  }
+  this.get = function(v = this.value) {
+    return v;
+  }
+}

@@ -1,10 +1,10 @@
+<!--<!doctype html>-->
 <html>
 <head>
-  <script src="editor.js"></script>
   <script src="easy.js"></script>
+  <script src="editor.js"></script>
   <script src="FileSaver.min.js"></script>
   <script src="jszip.js"></script>
-  <script src="cookie.js"></script>
   <script src="jquery-3.3.1.js"></script>
 
   <link rel="stylesheet" type="text/css" href="editor.css">
@@ -29,26 +29,34 @@
 <script>
 
 //Leave page warning (Thanks to Gabor Szabo on CodeMaven for making an article on this.)
-window.onbeforeunload = function() {
-   return "Changes you made may not be saved";
-};
+if (settings.displayNotificationOnReload) {
+  window.onbeforeunload = function() {
+    return "Changes you made may not be saved";
+  };
+}
 </script>
   <noscript>
     <p class="no">Sorry, you need Javascript to use HTMLGenie.</p>
   </noscript>
   <!--The build number text-->
-  <p style="color: #ED1010; position: fixed; top: 5px; right: 10px;" id="buildNo"></p>
+  <p style="color: #ED1010; position: fixed; top: 5px; right: 10px; text-shadow: 1px 1px 0px #d3bc5f;" id="buildNo"></p>
   <script>
   var p = document.getElementById("buildNo");
   p.innerHTML = 'v' + version.stage + '.' + version.build + '.' + version.patch + ' alpha';
+  if (!settings.showVersionNumber) {
+    p.style.visibility = "hidden";
+  }
   </script>
   <img src="img/settings/borderSettings.png" style="display: none; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 14;" id="settingBorder">
-  <div id="menu" class="menuBar">
+  <div id="menu" style="background-image: linear-gradient(to right, rgb(255, 255, 255) 21%, rgb(211, 188, 95) 100%);">
+    <script>
+    document.getElementById("menu").setAttribute("style", `background-image: linear-gradient(to right, ${settings.menuBar.left} 21%, ${settings.menuBar.right} 100%);`)
+    </script>
     <table class="menuTable">
       <tbody>
     <tr>
     <td>
-      <img id="logo" src="svg/logo.svg" width="80" height="60">
+      <a href="chocolatecircus445.github.io/htmlgenie"><img id="logo" src="svg/logo.svg" width="80" height="60"></a>
     </td>
     <td>
       <!--The menu for the user's website-->
